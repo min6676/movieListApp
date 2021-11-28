@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D2216BE2754291700967AB0 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2216BD2754291700967AB0 /* Review.swift */; };
+		6D2216C12754404200967AB0 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2216BF2754404200967AB0 /* ReviewTableViewCell.swift */; };
+		6D2216C22754404200967AB0 /* ReviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D2216C02754404200967AB0 /* ReviewTableViewCell.xib */; };
 		6D82EC132753C4C400021B6A /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D82EC122753C4C400021B6A /* Genre.swift */; };
 		6D82EC152753CC1D00021B6A /* MovieTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D82EC142753CC1D00021B6A /* MovieTableViewHeaderFooterView.swift */; };
 		6D82EC1B2753F03B00021B6A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D82EC192753F03B00021B6A /* DetailViewController.swift */; };
@@ -44,6 +47,9 @@
 
 /* Begin PBXFileReference section */
 		0E31259D4D8016A1232DD013 /* Pods-movieListApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-movieListApp.release.xcconfig"; path = "Target Support Files/Pods-movieListApp/Pods-movieListApp.release.xcconfig"; sourceTree = "<group>"; };
+		6D2216BD2754291700967AB0 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		6D2216BF2754404200967AB0 /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
+		6D2216C02754404200967AB0 /* ReviewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReviewTableViewCell.xib; sourceTree = "<group>"; };
 		6D82EC122753C4C400021B6A /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		6D82EC142753CC1D00021B6A /* MovieTableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewHeaderFooterView.swift; sourceTree = "<group>"; };
 		6D82EC192753F03B00021B6A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -218,6 +224,8 @@
 				6D82EC142753CC1D00021B6A /* MovieTableViewHeaderFooterView.swift */,
 				6D82EC2F275414CD00021B6A /* CastCollectionViewCell.swift */,
 				6D82EC30275414CD00021B6A /* CastCollectionViewCell.xib */,
+				6D2216BF2754404200967AB0 /* ReviewTableViewCell.swift */,
+				6D2216C02754404200967AB0 /* ReviewTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -237,6 +245,7 @@
 				6D82EC122753C4C400021B6A /* Genre.swift */,
 				6D82EC242754029400021B6A /* DetailMovie.swift */,
 				6D82EC27275410E700021B6A /* Credit.swift */,
+				6D2216BD2754291700967AB0 /* Review.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -303,6 +312,7 @@
 				6DB8E30F27533EC300D1E2BF /* LaunchScreen.storyboard in Resources */,
 				6DB8E34327539E8600D1E2BF /* MovieTableViewCell.xib in Resources */,
 				6DB8E32C2753562100D1E2BF /* NotoSansCJKkr-Bold.otf in Resources */,
+				6D2216C22754404200967AB0 /* ReviewTableViewCell.xib in Resources */,
 				6D82EC1C2753F03B00021B6A /* DetailViewController.xib in Resources */,
 				6D82EC32275414CE00021B6A /* CastCollectionViewCell.xib in Resources */,
 				6DB8E32A2753562100D1E2BF /* NotoSansCJKkr-Regular.otf in Resources */,
@@ -370,6 +380,7 @@
 				6DB8E30327533EBE00D1E2BF /* AppDelegate.swift in Sources */,
 				6DB8E3292753541500D1E2BF /* UIFont.swift in Sources */,
 				6D82EC152753CC1D00021B6A /* MovieTableViewHeaderFooterView.swift in Sources */,
+				6D2216BE2754291700967AB0 /* Review.swift in Sources */,
 				6DB8E30527533EBE00D1E2BF /* SceneDelegate.swift in Sources */,
 				6D82EC31275414CD00021B6A /* CastCollectionViewCell.swift in Sources */,
 				6D82EC28275410E700021B6A /* Credit.swift in Sources */,
@@ -382,6 +393,7 @@
 				6DB8E336275373FE00D1E2BF /* UIImage.swift in Sources */,
 				6DB8E330275357CE00D1E2BF /* MovieCollectionViewCell.swift in Sources */,
 				6D82EC212754020A00021B6A /* DetailView.swift in Sources */,
+				6D2216C12754404200967AB0 /* ReviewTableViewCell.swift in Sources */,
 				6DB8E33D2753809000D1E2BF /* ListPresenter.swift in Sources */,
 				6DB8E31A2753429A00D1E2BF /* Constant.swift in Sources */,
 			);

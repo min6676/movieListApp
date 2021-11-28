@@ -11,7 +11,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var movieImageView: UIImageView!
     @IBOutlet weak var movieNameLabel: UILabel!
     @IBOutlet var rateImageViews: [UIImageView]!
-    var rate: Double = 10
+    var rate: Double = 0
     var id: Int = 0
     weak var delegate: ListView!
     
@@ -43,13 +43,20 @@ class MovieCollectionViewCell: UICollectionViewCell {
     func setRate() {
         let starsCount = Int(self.rate / 2)
         
-        for i in 0...starsCount {
-            self.rateImageViews[i].image = UIImage.starFilled
+        if starsCount == 5 {
+            for i in 0..<starsCount {
+                self.rateImageViews[i].image = UIImage.starFilled
+            }
+        } else {
+            for i in 0...starsCount {
+                self.rateImageViews[i].image = UIImage.starFilled
+            }
+            
+            for i in starsCount..<5 {
+                self.rateImageViews[i].image = UIImage.starEmpty
+            }
         }
         
-        for i in starsCount..<5 {
-            self.rateImageViews[i].image = UIImage.starEmpty
-        }
     }
 
 }

@@ -21,10 +21,21 @@ class DetailPresenter {
         detailView = nil
     }
     
-    func fetchData(id: Int) {
+    func fetchInfo(id: Int) {
         self.service.getDetail(id: id, language: "ko-KR") { [weak self] movieInfo in
             self?.detailView?.setInfo(movieInfo)
         }
     }
     
+    func fetchCast(id: Int) {
+        self.service.getCast(id: id, language: "en-US") { castList in
+            self.detailView?.setCast(castList)
+        }
+    }
+    
+    func fetchReview(id: Int) {
+        self.service.getReview(id: id, language: "en-US") { reviewList in
+            self.detailView?.setReview(reviewList)
+        }
+    }
 }

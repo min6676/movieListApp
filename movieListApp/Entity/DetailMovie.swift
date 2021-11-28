@@ -14,7 +14,7 @@ struct DetailMovieResponse: Decodable {
     let id: Int
     let overview: String?
     let title: String
-    let poster_path: String
+    let poster_path: String?
     let release_date: String
     let vote_average: Double   
 }

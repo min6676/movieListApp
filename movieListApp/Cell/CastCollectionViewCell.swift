@@ -8,10 +8,13 @@
 import UIKit
 
 class CastCollectionViewCell: UICollectionViewCell {
-
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        profileImageView.layer.cornerRadius = profileImageView.bounds.height / 2
     }
 
 }

@@ -48,12 +48,18 @@ class MovieTableViewCell: UITableViewCell {
     func setRate() {
         let starsCount = Int(self.rate / 2)
         
-        for i in 0...starsCount {
-            self.rateImageViews[i].image = UIImage.starFilled
-        }
-        
-        for i in starsCount..<5 {
-            self.rateImageViews[i].image = UIImage.starEmpty
+        if starsCount == 5 {
+            for i in 0..<starsCount {
+                self.rateImageViews[i].image = UIImage.starFilled
+            }
+        } else {
+            for i in 0...starsCount {
+                self.rateImageViews[i].image = UIImage.starFilled
+            }
+            
+            for i in starsCount..<5 {
+                self.rateImageViews[i].image = UIImage.starEmpty
+            }
         }
     }
 

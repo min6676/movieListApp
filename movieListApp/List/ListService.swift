@@ -44,12 +44,8 @@ class ListService {
             case .success(let response):
                 completion(response.results)
             case .failure:
-                let status = response.response?.statusCode ?? 401
-                if status == 200 {
-                    print("No more data")
-                } else {
-                    print("Network Error")
-                }
+                print(response)
+                print("Network Error")
             }
         }
     }

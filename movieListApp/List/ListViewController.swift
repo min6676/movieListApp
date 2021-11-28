@@ -147,7 +147,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             data = self.topRatedList[indexPath.row]
         }
-                
+        
         cell.movieNameLabel.text = data!.title
         
         for id in data!.genre_ids {
@@ -158,10 +158,15 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         cell.movieGenreLable.text = stringGenres
         
         cell.movieDateLabel.text = data!.release_date
-        let downsamplingProcessor = DownsamplingImageProcessor(size: cell.movieImageView.frame.size)
-        let roundCornerProcessor = RoundCornerImageProcessor(cornerRadius: cell.movieImageView.layer.cornerRadius)
-        cell.movieImageView.kf.setImage(with: URL(string: Constant.BASE_IMAGE_URL + data!.poster_path), options: [.processor(downsamplingProcessor |> roundCornerProcessor), .scaleFactor(UIScreen.main.scale), .cacheOriginalImage])
-
+        
+        if let posterPath = data?.poster_path {
+            let downsamplingProcessor = DownsamplingImageProcessor(size: cell.movieImageView.frame.size)
+            let roundCornerProcessor = RoundCornerImageProcessor(cornerRadius: cell.movieImageView.layer.cornerRadius)
+            cell.movieImageView.kf.setImage(with: URL(string: Constant.BASE_IMAGE_URL + posterPath), options: [.processor(downsamplingProcessor |> roundCornerProcessor), .scaleFactor(UIScreen.main.scale), .cacheOriginalImage])
+        } else {
+            cell.movieImageView.image = UIImage()
+        }
+        
         cell.rate = data!.vote_average
         cell.setRate()
         
@@ -205,9 +210,14 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let data = self.nowPlayingList[indexPath.row]
         cell.id = data.id
         cell.movieNameLabel.text = data.title
-        let downsamplingProcessor = DownsamplingImageProcessor(size: cell.movieImageView.frame.size)
-        let roundCornerProcessor = RoundCornerImageProcessor(cornerRadius: cell.movieImageView.layer.cornerRadius)
-        cell.movieImageView.kf.setImage(with: URL(string: Constant.BASE_IMAGE_URL + data.poster_path), options: [.processor(downsamplingProcessor |> roundCornerProcessor), .scaleFactor(UIScreen.main.scale), .cacheOriginalImage])
+        
+        if let posterPath = data.poster_path {
+            let downsamplingProcessor = DownsamplingImageProcessor(size: cell.movieImageView.frame.size)
+            let roundCornerProcessor = RoundCornerImageProcessor(cornerRadius: cell.movieImageView.layer.cornerRadius)
+            cell.movieImageView.kf.setImage(with: URL(string: Constant.BASE_IMAGE_URL + posterPath), options: [.processor(downsamplingProcessor |> roundCornerProcessor), .scaleFactor(UIScreen.main.scale), .cacheOriginalImage])
+        } else {
+            cell.movieImageView.image = UIImage()
+        }
         
         cell.rate = data.vote_average
         cell.setRate()

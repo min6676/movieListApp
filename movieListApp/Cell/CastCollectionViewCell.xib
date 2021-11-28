@@ -7,18 +7,53 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="NotoSansCJKkr-Regular.otf">
+            <string>NotoSansCJKkr-Regular</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CastCollectionViewCell" id="gTV-IL-0wX" customClass="CastCollectionViewCell" customModule="movieListApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="68" height="65"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                <rect key="frame" x="0.0" y="0.0" width="68" height="65"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uc0-Yb-DGZ">
+                        <rect key="frame" x="11.5" y="0.0" width="45" height="45"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="45" id="fgu-cd-7gm"/>
+                            <constraint firstAttribute="width" constant="45" id="gPI-Wi-eqQ"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TqY-tM-uSO">
+                        <rect key="frame" x="0.0" y="47" width="68" height="18"/>
+                        <fontDescription key="fontDescription" name="NotoSansCJKkr-Regular" family="Noto Sans CJK KR" pointSize="8"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
-            <point key="canvasLocation" x="139" y="64"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="uc0-Yb-DGZ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="JYh-16-4NJ"/>
+                <constraint firstAttribute="bottom" secondItem="TqY-tM-uSO" secondAttribute="bottom" id="NDI-2R-eTT"/>
+                <constraint firstItem="TqY-tM-uSO" firstAttribute="top" secondItem="uc0-Yb-DGZ" secondAttribute="bottom" constant="2" id="T1S-Sq-6y9"/>
+                <constraint firstItem="TqY-tM-uSO" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="TZV-Si-XlM"/>
+                <constraint firstItem="uc0-Yb-DGZ" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="bTT-Js-gES"/>
+                <constraint firstAttribute="trailing" secondItem="TqY-tM-uSO" secondAttribute="trailing" id="cMl-RU-5LD"/>
+            </constraints>
+            <size key="customSize" width="68" height="65"/>
+            <connections>
+                <outlet property="nameLabel" destination="TqY-tM-uSO" id="oPX-ms-5SL"/>
+                <outlet property="profileImageView" destination="uc0-Yb-DGZ" id="Lre-xp-UYN"/>
+            </connections>
+            <point key="canvasLocation" x="198.55072463768118" y="132.92410714285714"/>
         </collectionViewCell>
     </objects>
 </document>

@@ -9,4 +9,6 @@ import Foundation
 
 protocol DetailView: NSObjectProtocol {
     func setInfo(_ movieInfo: DetailMovieResponse)
+    func setCast(_ castList: [Cast])
+    func setReview(_ reviewList: [Review])
 }
