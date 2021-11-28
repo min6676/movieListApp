@@ -12,6 +12,8 @@ class MovieCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var movieNameLabel: UILabel!
     @IBOutlet var rateImageViews: [UIImageView]!
     var rate: Double = 10
+    var id: Int = 0
+    weak var delegate: ListView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -180,6 +180,18 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 70
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.section == 0 {
+            self.presenter.tappedCell(id: upcomingList[indexPath.row].id)
+        } else if indexPath.section == 1 {
+            self.presenter.tappedCell(id: popularList[indexPath.row].id)
+        } else {
+            self.presenter.tappedCell(id: topRatedList[indexPath.row].id)
+        }
+        
+    }
 }
 
 //MARK: - CollectionViewDelegate
@@ -191,6 +203,7 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.MovieCollectionViewCellIdentifier, for: indexPath) as! MovieCollectionViewCell
         let data = self.nowPlayingList[indexPath.row]
+        cell.id = data.id
         cell.movieNameLabel.text = data.title
         let downsamplingProcessor = DownsamplingImageProcessor(size: cell.movieImageView.frame.size)
         let roundCornerProcessor = RoundCornerImageProcessor(cornerRadius: cell.movieImageView.layer.cornerRadius)
@@ -210,10 +223,15 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.presenter.tappedCell(id: self.nowPlayingList[indexPath.row].id)
+    }
 }
 
 //MARK: - ListView
 extension ListViewController: ListView {
+    
     func setGenreList(_ genres: [Int:String]) {
         self.genreDictionary = genres
     }
@@ -234,5 +252,10 @@ extension ListViewController: ListView {
             self.tableView.reloadData()
         }
         
+    }
+    
+    func goToDetail(id: Int) {
+        let detailVC = DetailViewController(id: id)
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }

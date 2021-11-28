@@ -9,8 +9,6 @@ class ListPresenter {
     private let service: ListService
     weak fileprivate var listView: ListView?
     
-    var movieList: [Movie] = []
-    
     init(listService: ListService) {
         self.service = listService
     }
@@ -49,4 +47,7 @@ class ListPresenter {
         }
     }
     
+    func tappedCell(id: Int) {
+        self.listView?.goToDetail(id: id)
+    }
 }

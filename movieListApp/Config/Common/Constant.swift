@@ -16,6 +16,7 @@ struct Constant {
     static let MovieCollectionViewCellIdentifier = "MovieCollectionViewCell"
     static let MovieTableViewCellIdentifier = "MovieTableViewCell"
     static let MovieTableViewHeaderFooterViewIdentifier = "MovieTableViewHeaderFooterView"
+    static let CastCollectionViewCellIdentifer = "CastCollectionViewCell"
     
     // List Headers
     static let movieListHeaders = ["개봉 예정", "인기", "높은 평점"]
