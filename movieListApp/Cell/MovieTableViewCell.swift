@@ -1,5 +1,5 @@
 //
-//  movieCollectionViewCell.swift
+//  MovieTableViewCell.swift
 //  movieListApp
 //
 //  Created by 김민순 on 2021/11/28.
@@ -7,15 +7,17 @@
 
 import UIKit
 
-class MovieCollectionViewCell: UICollectionViewCell {
+class MovieTableViewCell: UITableViewCell {
     @IBOutlet weak var movieImageView: UIImageView!
     @IBOutlet weak var movieNameLabel: UILabel!
     @IBOutlet var rateImageViews: [UIImageView]!
+    @IBOutlet weak var movieGenreLable: UILabel!
+    @IBOutlet weak var movieDateLabel: UILabel!
     var rate: Double = 10
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-       
+        
         movieImageView.layer.cornerRadius = 8
         movieImageView.clipsToBounds = true
         
@@ -35,7 +37,12 @@ class MovieCollectionViewCell: UICollectionViewCell {
         layer0.position = shadows.center
         shadows.layer.addSublayer(layer0)
         
-        movieNameLabel.font = UIFont.NotoSans(.medium, size: 12)
+        movieNameLabel.font = UIFont.NotoSans(.medium, size: 10)
+        movieNameLabel.textColor = .black
+        movieGenreLable.font = UIFont.NotoSans(.regular, size: 9)
+        movieGenreLable.textColor = UIColor(red: 0.604, green: 0.604, blue: 0.604, alpha: 1)
+        movieDateLabel.font = UIFont.NotoSans(.regular, size: 9)
+        movieDateLabel.textColor = UIColor(red: 0.604, green: 0.604, blue: 0.604, alpha: 1)
     }
     
     func setRate() {
@@ -50,4 +57,10 @@ class MovieCollectionViewCell: UICollectionViewCell {
         }
     }
 
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+    
 }

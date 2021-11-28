@@ -12,6 +12,11 @@ import Kingfisher
 class ListViewController: BaseViewController {
     
     fileprivate var nowPlayingList = [Movie]()
+    fileprivate var upcomingList = [Movie]()
+    fileprivate var popularList = [Movie]()
+    fileprivate var topRatedList = [Movie]()
+    fileprivate var genreDictionary = [Int:String]()
+    
     fileprivate let presenter = ListPresenter(listService: ListService())
     
     private var moreFetch: Bool = false
@@ -31,7 +36,7 @@ class ListViewController: BaseViewController {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
         collectionView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: cellHeight+8)
-        collectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "movieCollectionViewCell")
+        collectionView.register(UINib(nibName: Constant.MovieCollectionViewCellIdentifier, bundle: nil), forCellWithReuseIdentifier: Constant.MovieCollectionViewCellIdentifier)
         
         return collectionView
     }()
@@ -63,12 +68,16 @@ class ListViewController: BaseViewController {
     }()
     
     lazy var tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 77
+        tableView.rowHeight = 80
         tableView.backgroundColor = .white
         tableView.tableHeaderView = headerView
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
+        tableView.register(MovieTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: Constant.MovieTableViewHeaderFooterViewIdentifier)
+        tableView.register(UINib(nibName: Constant.MovieTableViewCellIdentifier, bundle: nil), forCellReuseIdentifier: Constant.MovieTableViewCellIdentifier)
         return tableView
     }()
     
@@ -77,7 +86,11 @@ class ListViewController: BaseViewController {
         
         setLayout()
         presenter.attachView(view: self)
+        self.presenter.fetchGenre(language: "en-US")
         self.presenter.fetchData(type: 0, page: self.currentPage)
+        self.presenter.fetchData(type: 1, page: 1)
+        self.presenter.fetchData(type: 2, page: 1)
+        self.presenter.fetchData(type: 3, page: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,7 +111,7 @@ class ListViewController: BaseViewController {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            make.bottom.equalToSuperview()
         }
     }
     
@@ -108,13 +121,65 @@ class ListViewController: BaseViewController {
 //MARK: - TableViewDelegate
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return upcomingList.count
+        } else if section == 1 {
+            return popularList.count
+        } else {
+            return topRatedList.count
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        var data: Movie?
+        var genres: [String] = []
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constant.MovieTableViewCellIdentifier, for: indexPath) as! MovieTableViewCell
+        
+        if indexPath.section == 0 {
+            data = self.upcomingList[indexPath.row]
+        } else if indexPath.section == 1 {
+            data = self.popularList[indexPath.row]
+        } else {
+            data = self.topRatedList[indexPath.row]
+        }
+                
+        cell.movieNameLabel.text = data!.title
+        
+        for id in data!.genre_ids {
+            genres.append(self.genreDictionary[id] ?? "")
+        }
+        
+        let stringGenres = genres.joined(separator: ", ")
+        cell.movieGenreLable.text = stringGenres
+        
+        cell.movieDateLabel.text = data!.release_date
+        let downsamplingProcessor = DownsamplingImageProcessor(size: cell.movieImageView.frame.size)
+        let roundCornerProcessor = RoundCornerImageProcessor(cornerRadius: cell.movieImageView.layer.cornerRadius)
+        cell.movieImageView.kf.setImage(with: URL(string: Constant.BASE_IMAGE_URL + data!.poster_path), options: [.processor(downsamplingProcessor |> roundCornerProcessor), .scaleFactor(UIScreen.main.scale), .cacheOriginalImage])
+
+        cell.rate = data!.vote_average
+        cell.setRate()
+        
+        return cell
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: Constant.MovieTableViewHeaderFooterViewIdentifier) as! MovieTableViewHeaderFooterView
+        
+        header.headerName = Constant.movieListHeaders[section]
+        header.setLayout()
+        
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 70
+    }
 }
 
 //MARK: - CollectionViewDelegate
@@ -124,7 +189,7 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCollectionViewCell", for: indexPath) as! MovieCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.MovieCollectionViewCellIdentifier, for: indexPath) as! MovieCollectionViewCell
         let data = self.nowPlayingList[indexPath.row]
         cell.movieNameLabel.text = data.title
         let downsamplingProcessor = DownsamplingImageProcessor(size: cell.movieImageView.frame.size)
@@ -138,7 +203,7 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == nowPlayingList.count - 3 {
+        if indexPath.row == nowPlayingList.count - 1 {
             DispatchQueue.main.async {
                 self.currentPage += 1
                 self.presenter.fetchData(type: 0, page: self.currentPage)
@@ -148,10 +213,26 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
 }
 
 //MARK: - ListView
-
 extension ListViewController: ListView {
-    func setList(_ movies: [Movie], moreFetch: Bool) {
-        self.nowPlayingList += movies
-        self.movieCollectionView.reloadData()
+    func setGenreList(_ genres: [Int:String]) {
+        self.genreDictionary = genres
+    }
+    
+    func setList(_ movies: [Movie], type: Int) {
+        
+        if type == 0 {
+            self.nowPlayingList += movies
+            self.movieCollectionView.reloadData()
+        } else if type == 1 {
+            self.upcomingList = movies
+            self.tableView.reloadData()
+        } else if type == 2 {
+            self.popularList = movies
+            self.tableView.reloadData()
+        } else {
+            self.topRatedList = movies
+            self.tableView.reloadData()
+        }
+        
     }
 }

@@ -8,5 +8,6 @@
 import Foundation
 
 protocol ListView: NSObjectProtocol {
-    func setList(_ movies: [Movie], moreFetch: Bool)
+    func setList(_ movies: [Movie], type: Int)
+    func setGenreList(_ genres: [Int:String])
 }

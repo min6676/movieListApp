@@ -23,10 +23,28 @@ class ListPresenter {
         listView = nil
     }
     
+    func fetchGenre(language: String) {
+        self.service.getGenreList(language: language) { genreList in
+            var genreDictionary: [Int:String] = Dictionary()
+            for genre in genreList {
+                genreDictionary[genre.id] = genre.name
+            }
+            
+            self.listView?.setGenreList(genreDictionary)
+        }
+    }
+    
     func fetchData(type: Int, page: Int) {
-        self.service.getList(type: type, page: page) { [weak self] movieList, isResult in
-            if isResult {
-                self?.listView?.setList(movieList, moreFetch: true)
+        self.service.getList(type: type, page: page) { [weak self] movieList in
+            if type == 0 {
+                self?.listView?.setList(movieList, type: type)
+            } else {
+                if movieList.count > 3 {
+                    let movies = movieList[0..<3]
+                    self?.listView?.setList(Array(movies), type: type)
+                } else {
+                    self?.listView?.setList(movieList, type: type)
+                }
             }
         }
     }
