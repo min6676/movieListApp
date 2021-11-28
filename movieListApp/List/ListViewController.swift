@@ -7,15 +7,22 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class ListViewController: BaseViewController {
+    
+    fileprivate var nowPlayingList = [Movie]()
+    fileprivate let presenter = ListPresenter(listService: ListService())
+    
+    private var moreFetch: Bool = false
+    private var currentPage = 1
     
     lazy var movieCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cellWidth = UIScreen.main.bounds.width * 0.33
         let cellHeight = cellWidth * 1.65 + 28
         layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 17
@@ -60,6 +67,7 @@ class ListViewController: BaseViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 77
+        tableView.backgroundColor = .white
         tableView.tableHeaderView = headerView
         return tableView
     }()
@@ -68,6 +76,8 @@ class ListViewController: BaseViewController {
         super.viewDidLoad()
         
         setLayout()
+        presenter.attachView(view: self)
+        self.presenter.fetchData(type: 0, page: self.currentPage)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,18 +118,40 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 //MARK: - CollectionViewDelegate
-
 extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 40
+        return self.nowPlayingList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCollectionViewCell", for: indexPath) as! MovieCollectionViewCell
-        cell.rate = 3
+        let data = self.nowPlayingList[indexPath.row]
+        cell.movieNameLabel.text = data.title
+        let downsamplingProcessor = DownsamplingImageProcessor(size: cell.movieImageView.frame.size)
+        let roundCornerProcessor = RoundCornerImageProcessor(cornerRadius: cell.movieImageView.layer.cornerRadius)
+        cell.movieImageView.kf.setImage(with: URL(string: Constant.BASE_IMAGE_URL + data.poster_path), options: [.processor(downsamplingProcessor |> roundCornerProcessor), .scaleFactor(UIScreen.main.scale), .cacheOriginalImage])
+        
+        cell.rate = data.vote_average
         cell.setRate()
         
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == nowPlayingList.count - 3 {
+            DispatchQueue.main.async {
+                self.currentPage += 1
+                self.presenter.fetchData(type: 0, page: self.currentPage)
+            }
+        }
+    }
+}
+
+//MARK: - ListView
+
+extension ListViewController: ListView {
+    func setList(_ movies: [Movie], moreFetch: Bool) {
+        self.nowPlayingList += movies
+        self.movieCollectionView.reloadData()
+    }
 }

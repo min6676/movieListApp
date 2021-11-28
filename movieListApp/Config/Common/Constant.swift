@@ -7,6 +7,7 @@
 
 struct Constant {
     static let BASE_URL = "https://api.themoviedb.org/3/movie"
+    static let BASE_IMAGE_URL = "https://image.tmdb.org/t/p/original"
     
     // 본인의 api 키를 입력해주세요.
     static let API_KEY = K.API_KEY

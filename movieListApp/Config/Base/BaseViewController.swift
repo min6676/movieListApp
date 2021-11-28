@@ -14,5 +14,9 @@ class BaseViewController: UIViewController {
         
         self.view.backgroundColor = .white
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
 
 }
